@@ -1,0 +1,89 @@
+USE id21358706_danielrebich;
+
+DROP TABLE IF EXISTS sensor_data;
+DROP TABLE IF EXISTS sensor_register;
+
+CREATE TABLE sensor_register(
+	node_name varchar(10) NOT NULL PRIMARY KEY,
+    manufacturer varchar(10),
+    longitude REAL(15,12), -- longitude goes from -180 to 180 so we want 3 places to the right of the decimal
+    latitude REAL(15,13) -- latitude goes from -90 to 90 so we want 2 places to the right of the decimal
+);
+
+ALTER TABLE sensor_register ADD CONSTRAINT check_lon_range CHECK (longitude >= -180 && longitude <= 180);
+ALTER TABLE sensor_register ADD CONSTRAINT check_lat_range CHECK (latitude >= -90 && latitude <= 90);
+
+CREATE TABLE sensor_data(
+  	node_name varchar(10) NOT NULL,
+  	time_received TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  	temperature float(6,3),
+    humidity float(6,3),
+    -- other columns for sensor details
+    FOREIGN KEY (node_name) REFERENCES sensor_register(node_name)
+);
+
+ALTER TABLE sensor_data ADD CONSTRAINT check_temp_range CHECK (temperature >= -10 && temperature <= 100);
+ALTER TABLE sensor_data ADD CONSTRAINT check_humi_range CHECK (humidity >= 0 && humidity <= 100);
+
+-- Insert DATA for sensor_register
+INSERT INTO sensor_register (node_name, manufacturer, longitude, latitude) VALUES ('node_1', 'man1', -122.419418, 37.774929);
+INSERT INTO sensor_register (node_name, manufacturer, longitude, latitude) VALUES ('node_2', 'man1', -122.419418, 37.774929);
+INSERT INTO sensor_register (node_name, manufacturer, longitude, latitude) VALUES ('node_3', 'man1', -122.419418, 37.774929);
+INSERT INTO sensor_register (node_name, manufacturer, longitude, latitude) VALUES ('node_4', 'man1', -122.419418, 37.774929);
+INSERT INTO sensor_register (node_name, manufacturer, longitude, latitude) VALUES ('node_5', 'man1', -122.419418, 37.774929);
+
+-- Insert DATA
+-- Node 1, 4 Data Sets
+INSERT INTO sensor_data (node_name, time_received, temperature, humidity) VALUES ('node_1', '2023-10-1 11:00:00', 26, 35);
+INSERT INTO sensor_data (node_name, time_received, temperature, humidity) VALUES ('node_1', '2023-10-1 11:30:00', 28, 36);
+INSERT INTO sensor_data (node_name, time_received, temperature, humidity) VALUES ('node_1', '2023-10-1 12:00:00', 29, 36);
+INSERT INTO sensor_data (node_name, time_received, temperature, humidity) VALUES ('node_1', '2023-10-1 12:30:00', 30, 37);
+-- Node 2, 4 Data Sets
+INSERT INTO sensor_data (node_name, time_received, temperature, humidity) VALUES ('node_2', '2023-10-1 11:00:00', 22, 30);
+INSERT INTO sensor_data (node_name, time_received, temperature, humidity) VALUES ('node_2', '2023-10-1 11:30:00', 22, 31);
+INSERT INTO sensor_data (node_name, time_received, temperature, humidity) VALUES ('node_2', '2023-10-1 12:00:00', 23, 32);
+INSERT INTO sensor_data (node_name, time_received, temperature, humidity) VALUES ('node_2', '2023-10-1 12:30:00', 24, 33);
+-- Node 3, 4 Data Sets
+INSERT INTO sensor_data (node_name, time_received, temperature, humidity) VALUES ('node_3', '2023-10-1 11:00:00', 28, 50);
+INSERT INTO sensor_data (node_name, time_received, temperature, humidity) VALUES ('node_3', '2023-10-1 11:30:00', 29, 53);
+INSERT INTO sensor_data (node_name, time_received, temperature, humidity) VALUES ('node_3', '2023-10-1 12:00:00', 31, 55);
+INSERT INTO sensor_data (node_name, time_received, temperature, humidity) VALUES ('node_3', '2023-10-1 12:30:00', 31, 57);
+-- Node 4, 4 Data Sets
+INSERT INTO sensor_data (node_name, time_received, temperature, humidity) VALUES ('node_4', '2023-10-1 11:00:00', 19, 10);
+INSERT INTO sensor_data (node_name, time_received, temperature, humidity) VALUES ('node_4', '2023-10-1 11:30:00', 19, 12);
+INSERT INTO sensor_data (node_name, time_received, temperature, humidity) VALUES ('node_4', '2023-10-1 12:00:00', 24, 17);
+INSERT INTO sensor_data (node_name, time_received, temperature, humidity) VALUES ('node_4', '2023-10-1 12:30:00', 25, 20);
+-- Node 5, 4 Data Sets
+INSERT INTO sensor_data (node_name, time_received, temperature, humidity) VALUES ('node_5', '2023-10-1 11:00:00', 10, 20);
+INSERT INTO sensor_data (node_name, time_received, temperature, humidity) VALUES ('node_5', '2023-10-1 11:30:00', 20, 20);
+INSERT INTO sensor_data (node_name, time_received, temperature, humidity) VALUES ('node_5', '2023-10-1 12:00:00', 21, 21);
+INSERT INTO sensor_data (node_name, time_received, temperature, humidity) VALUES ('node_5', '2023-10-1 12:30:00', 21, 21);
+
+
+-- checks if node_name mismatch between tables is rejected
+-- INSERT INTO sensor_data (node_name, time_received, temperature, humidity) VALUES ('node_6', '2023-10-1 12:30:00', 21, 21);
+
+
+SELECT * FROM sensor_data;
+
+SELECT * FROM sensor_register;
+
+CREATE VIEW sensor_combined AS SELECT
+	sensor_register.node_name,
+    sensor_register.manufacturer,
+    sensor_register.longitude,
+    sensor_register.latitude,
+    sensor_data.time_received,
+    sensor_data.temperature,
+    sensor_data.humidity
+FROM
+	sensor_register,
+    sensor_data 
+WHERE
+	sensor_register.node_name = sensor_data.node_name; 
+SELECT * FROM sensor_combined;
+
+DROP VIEW IF EXISTS
+	sensor_combined;
+
+
