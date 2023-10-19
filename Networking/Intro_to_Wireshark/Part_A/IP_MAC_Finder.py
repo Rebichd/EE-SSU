@@ -8,13 +8,14 @@ import subprocess
 #Changes:
 #	- Changed the timeout loop to correctly enter the if statement based on whether or not there was an IP
 #	address seen or not
-#	- Added note about the possibility of the need to modify /etc/resolv.conf file depending on how local
+#	- Added note about the possibility of the need to modify /etc/dhcpcd.conf file depending on how local
 #	network is configured
 
 #A program that uploads the IP Address and MAC address to the php website in the "curl" command below
 #This script will run on boot up with the use of laucher.sh 
-#This script may require the need to set the /etc/resolv.conf file using the command 'sudo nano /etc/resolv.conf' 
-#then changing the nameserver to 8.8.8.8 which will force the curl command to use Google as the DNS
+#This script may require the need to set the /etc/resolv.conf file using the command 'sudo nano /etc/dhcpcd.conf' 
+#then at the bottom change the "static domain_name_server=8.8.8.8" and make sure to un-comment it which will 
+#force the curl command to use Google as the DNS. You can then restart the service 'sudo service dhcpcd restart'
 
 counter = 0
 timeLimit = 120
