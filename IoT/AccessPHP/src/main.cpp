@@ -10,8 +10,8 @@ void grabTime();
 void pushToSite();
 
 
-const char* ssid     = "Verizon-SM-G960U-97FC";//"DARE";
-const char* password = "lhik780*";//"rebichmotherfucker";
+const char* ssid     = "Your SSID";
+const char* password = "Your Password";
 
 //This is for getting the time
 String TimeURL = "https://timeapi.io/api/Time/current/zone?timeZone=America/Los_Angeles";
