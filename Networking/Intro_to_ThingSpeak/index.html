@@ -1,0 +1,27 @@
+this file uses the apache2 package on a RPI and sits in the the /var/www/html dir
+
+<html>
+<head><title> View </title>
+</head>
+<body>
+<h1>Welcome to My Webpage!</h1>
+<p>Here is the data directly from the PI</p>
+<table width="200" border="1">
+  <tbody>
+    <tr>
+      <th scope="row"><iframe width="450" height="260" style="border: 1px solid #cccccc;"
+        src="https://thingspeak.com/channels/2362159/charts/1?bgcolor=%23ffffff&color=%23d62020&dynamic=true&title=RPI+CPU+Temp&type=line&xaxis=Time&yaxis=Temp+%28%27C%29">
+        </iframe></th>
+      <td><iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/2362159/widgets/759180"></iframe></td>
+    </tr>
+    <tr>
+      <td><iframe width="450" height="260" style="border: 1px solid #cccccc;"
+        src="https://thingspeak.com/channels/2362159/charts/2?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=60&title=RPI+CPU+Usage&type=line&xaxis=Time&yaxis=Usage+%28%25%29">
+        </iframe></td>
+      <td><iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/apps/matlab_visualizations/538307"></iframe></td>
+    </tr>
+  </tbody>
+</table>
+<p> </p>
+</body>
+</html>
