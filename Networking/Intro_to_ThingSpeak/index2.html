@@ -1,0 +1,43 @@
+This file uses the apache2 package for the RPI and sits in the /var/www/html dir
+
+<!DOCTYPE html>
+<html>
+<body>
+<p><strong>Control Your PI! </strong></p>
+
+  <form action="https://api.thingspeak.com/talkbacks/*****/commands.json" target="_blank" method="post">
+      <input type="text" name="api_key" placeholder="****************"  id="key">
+        <label> Type: API Key</label>
+    <br>
+    <input type="text" name="command_string" id="command">
+    <label> Type: On/OFF</label>
+    <br><input type="submit" value="Send">
+  </form>
+
+<p><strong>Check what is in the Queue</strong></p>
+    <form action="https://api.thingspeak.com/talkbacks/*****/commands.json?" target="_blank" method="get">
+      <input type="text" name="api_key" id="key">
+        <label> Type: API Key</label>
+    <br><input type="submit" value="Send">
+  </form>
+
+  <p><strong>Remove Existing States in the Queue</strong></p>
+    <form action="https://api.thingspeak.com/talkbacks/*****/commands.json?" target="_blank" method="get">
+      <input type="text" name="api_key" id="API_KEY">
+        <label> Type: API_KEY</label> <br>
+      <input type="text" name="talkback_key" id="TALKBACK_KEY">
+        <label> Type: TALKBACK_KEY</label>
+    <br><input type="submit" value="Send">
+  </form>
+
+<br>
+<br>
+
+  <p><strong>LED Control</strong></p>
+  <form action="https://api.thingspeak.com/talkbacks/*****/commands.json?api_key=****************" method="post" target="invisible" >
+    <button name="command_string" value="ON">ON</button>
+    <button name="command_string" value="OFF">OFF</button>
+  </form>
+
+ </body>
+</html>
