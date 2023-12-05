@@ -19,7 +19,8 @@ IPtoWatch = "host 192.168.1.140"   #192.168.1.118" #this is for the phone
 
 print ("Starting Packet Watch...")
 
-output = subprocess.Popen(['sudo', 'tshark', '-l', '-i', 'wlan0', '-f', IPtoWatch, '-T', 'fields', '-e', 'frame.len', '-e', 'frame.protocols', '-a', watchTime]>
+output = subprocess.Popen(['sudo', 'tshark', '-l', '-i', 'wlan0', '-f', IPtoWatch, '-T', 'fields', '-e', 'frame.len', '-e', 'frame.protocols', '-a', watchTime], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
 
 #Loop to continue while still reading output from tshrak command above
 i = 0
